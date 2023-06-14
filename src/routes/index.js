@@ -1,4 +1,3 @@
-import app from "../app.js";
 
 const routes = (app) => {
     app.route("/").get((req, res) => {
