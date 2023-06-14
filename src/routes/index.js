@@ -1,5 +1,9 @@
-import express from "express";
+import app from "../app.js";
 
-const router = express.Router();
+const routes = (app) => {
+    app.route("/").get((req, res) => {
+        res.status(200).send("Bem Vindo a Floricultura")
+    })
+}
 
-router
+export default routes;

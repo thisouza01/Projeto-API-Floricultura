@@ -1,15 +1,9 @@
 import express from 'express';
-
-// INDEX - ROUTER
+import routes from "./routes/index.js";
 
 const app = express();
-app.use(express.json())
-
-// ROUTER
-
-app.get('/', (req, res) => {
-        res.status(200).send('Bem Vindo a Floricultura!')
-})
+app.use(express.json());
+routes(app);
 
 app.get('/all', (req, res) => {
     try {
