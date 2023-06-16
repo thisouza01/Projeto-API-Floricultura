@@ -1,5 +1,5 @@
 import express from "express";
-import VasoController from "../controllers/vasosController";
+import VasoController from "../controllers/vasosController.js";
 
 const router = express.Router();
  

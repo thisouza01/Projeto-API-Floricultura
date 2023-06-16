@@ -1,5 +1,5 @@
 import express from "express";
-import PlantaController from "../controllers/plantasController";
+import PlantaController from "../controllers/plantasController.js";
 
 const router = express.Router();
 
