@@ -1,10 +1,11 @@
-
+import plantas from "../model/Planta.js";
 
 class PlantaController {
 
-    static listarPlantas = (req, res) => {
+    static listarPlantas = async (req, res) => {
         try {
-            res.status(200).send(plantas)
+            const plantasResultado = await plantas.find()
+            res.status(200).send(plantasResultado)
         } catch (err) {
             if(err) {
                 res.status(400).send(err)
@@ -12,10 +13,15 @@ class PlantaController {
         }
     };
 
-    static listarPlantasPorId = (req, res) => {
+    static listarPlantasPorId = async (req, res) => {
         try {
             const id = req.params.id;
-            res.status(200).send(`plantas:${id}`)
+            const resultado = await plantas.findById(id);
+
+            if(resultado !== null) {
+                res.status(200).send(resultado)
+            }
+
         } catch (err) {
             if(err) {
                 res.status(400).send(err)
@@ -23,9 +29,12 @@ class PlantaController {
         }
     };
 
-    static cadastrarPlantas = (req, res) => {
+    static cadastrarPlantas = async (req, res) => {
         try{
-            res.status(201).send("planta cadastrada!")
+            let planta = new plantas(req.body);
+            const resultado = await planta.save()
+
+            res.status(201).send(resultado)
         } catch(err) {
             if(err) {
                 res.status(400).send(err)
@@ -33,11 +42,15 @@ class PlantaController {
         }
     }
 
-    static atualizarPlantas = (req, res) => {
+    static atualizarPlantas = async (req, res) => {
         try {
             const id = req.params.id;
+            const plantaAtualizada = await plantas.findByIdAndUpdate(id, {$set: req.body});
+
+            if(plantaAtualizada !== null) {
+                res.status(200).json(plantaAtualizada)
+            }
             
-            res.status(200).send("Planta atualiada!")
         } catch(err) {
             if (err) {
                 res.status(400).send(err)
@@ -45,11 +58,15 @@ class PlantaController {
         }
     }
 
-    static excluirPlantas = (req, res) => {
+    static excluirPlantas = async (req, res) => {
         try{ 
             const id = req.params.id;
+            const plantaExluida = await plantas.findByIdAndDelete(id);
+            
+            if(plantaExluida !== null) {
+                res.status(200).send({message: "Planta excluida com sucesso!"});
+            }
 
-            res.status(200).send("Planta excluida com sucesso!")
         } catch(err) {
             if(err) {
                 res.status(400).send(err)

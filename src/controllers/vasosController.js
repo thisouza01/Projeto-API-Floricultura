@@ -1,8 +1,12 @@
+import vasos from "../model/Vaso.js"
+
 class VasoController {
     
-    static listarVasos = (req, res) => {
+    static listarVasos = async (req, res) => {
         try{
-            res.status(200).send("todos os vasos!")
+            const vasosResultado = await vasos.find();
+
+            res.status(200).json(vasosResultado);
         } catch(err) {
             if(err) {
                 res.status(400).send(err)
@@ -10,11 +14,15 @@ class VasoController {
         }
     }
 
-    static listarVasosPorId = (req, res) => {
+    static listarVasosPorId = async (req, res) => {
         try{ 
-            const id = req.params.id
+            const id = req.params.id;
+            const resultado = await vasos.findById(id);
 
-            res.status(200).send(`Vasos:  ${id}`)
+            if(resultado !== null) {
+                res.status(200).json(resultado)
+            }
+
         } catch (err) {
             if(err) {
                 res.status(400).send(err)
@@ -22,9 +30,12 @@ class VasoController {
         }
     }
 
-    static cadastrarVasos = (req, res) => {
+    static cadastrarVasos = async (req, res) => {
         try {
-            res.status(200).send("vaso cadastrado!")
+            let vaso = new vasos(req.body);
+            const vasoCadastrado = await vaso.save();
+
+            res.status(200).json(vasoCadastrado);
         } catch(err) {
             if(err) {
                 res.status(400).send(err)
@@ -32,11 +43,14 @@ class VasoController {
         }
     }
 
-    static atualizarVasos = (req, res) => {
+    static atualizarVasos = async (req, res) => {
         try {
             const id = req.params.id
+            const vasoAtualizado = await vasos.findByIdAndUpdate(id, {$set: req.body});
 
-            res.status(200).send("vaso atualizado!")
+            if(vasoAtualizado !== null) {
+                res.status(200).json(vasoAtualizado);
+            }
         } catch (err) {
             if(err) {
                 res.status(400).send(err)
@@ -44,11 +58,15 @@ class VasoController {
         }
     }
 
-    static excluirVasos = (req, res) => {
+    static excluirVasos = async (req, res) => {
         try {
             const id = req.params.id
+            const vasoExcluido = await vasos.findByIdAndDelete(id)
 
-            res.status(200).send("vaso excluido com sucesso!")
+            if(vasoExcluido !== null) {
+                res.status(200).send("vaso excluido com sucesso!")
+            }
+
         } catch(err) {
             if(err) {
                 res.status(400).send(err)

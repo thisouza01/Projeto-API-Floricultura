@@ -14,7 +14,7 @@ routes(app);
 
 app.get('/all', (req, res) => {
     try {
-        res.status(200).json('produtos')
+        res.status(200).json('produtos') 
     } catch (err) {
         if(err) {
             res.status(400).send(err)
