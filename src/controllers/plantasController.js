@@ -1,10 +1,10 @@
-import plantas from "../model/Planta.js";
+
 
 class PlantaController {
 
     static listarPlantas = (req, res) => {
         try {
-            res.status(200).send('todas as plantas')
+            res.status(200).send(plantas)
         } catch (err) {
             if(err) {
                 res.status(400).send(err)
